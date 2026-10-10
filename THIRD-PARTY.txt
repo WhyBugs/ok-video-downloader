@@ -1,0 +1,20 @@
+Использованные компоненты:
+
+yt-dlp — https://github.com/yt-dlp/yt-dlp
+Официальный бинарный выпуск: https://github.com/yt-dlp/yt-dlp-nightly-builds/releases
+Версия: 2026.09.27.232945 (исправление обработки данных плеера Одноклассников).
+Unlicense; бинарный выпуск содержит дополнительные компоненты со своими лицензиями.
+Описание лицензий: https://github.com/yt-dlp/yt-dlp/blob/master/README.md#license
+
+FFmpeg и FFprobe — https://ffmpeg.org/
+Сборка GPL: https://github.com/yt-dlp/FFmpeg-Builds
+Лицензия GPL v3 или новее. Исходники и инструкции сборки:
+https://github.com/yt-dlp/FFmpeg-Builds
+https://github.com/FFmpeg/FFmpeg
+Исходники использованного FFmpeg: https://github.com/FFmpeg/FFmpeg/tree/8e9db1f152
+Версия FFmpeg: N-127276-g8e9db1f152-20261010, GPL v3 или новее.
+Точные версии и сведения о сборке: tools\ffmpeg.exe -version
+Текст лицензии: https://www.gnu.org/licenses/gpl-3.0.txt
+
+Оболочка ОК Видео и установщик: исходники находятся в src, разрешено использование,
+изменение и распространение согласно GPL v3 или новее.

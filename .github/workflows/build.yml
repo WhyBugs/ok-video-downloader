@@ -1,0 +1,28 @@
+name: Build Windows installer
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download verified tools
+        shell: powershell
+        run: ./get-tools.ps1
+      - name: Build installer
+        shell: powershell
+        run: ./build.ps1
+      - name: Check URL handling and cancellation
+        shell: powershell
+        run: |
+          & "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /nologo /out:dist\portable\Checks.exe /reference:dist\portable\OkVideo.exe tests\Checks.cs
+          if ($LASTEXITCODE -ne 0) { throw 'Checks compilation failed' }
+          & .\dist\portable\Checks.exe
+          if ($LASTEXITCODE -ne 0) { throw 'Checks failed' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OkVideo-Windows-Installer
+          path: dist/OkVideo-Setup.exe

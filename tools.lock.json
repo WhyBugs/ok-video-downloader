@@ -1,0 +1,16 @@
+{
+  "ytdlp": {
+    "version": "2026.09.27.232945",
+    "url": "https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/download/2026.09.27.232945/yt-dlp.exe",
+    "sha256": "997C00E8F8ED91431B1DDAEEAE519743602BEB0B6DF0903194A2632E57DF1B31"
+  },
+  "ffmpeg": {
+    "version": "N-127276-g8e9db1f152-20261010",
+    "url": "https://github.com/yt-dlp/FFmpeg-Builds/releases/download/autobuild-2026-10-10-18-21/ffmpeg-N-127276-g8e9db1f152-win64-gpl.zip",
+    "archiveSha256": "8B21D54A4B463C5F65B48D26BE466BAB4623C18345D42219D556F2FA9C91CFB0",
+    "sha256": "C11B14CF1675D80F8D21FF7B753C58D22B2928D8088D83F9A5A43D0D872E7038"
+  },
+  "ffprobe": {
+    "sha256": "E54A99CA82CF87209924B7AA1C889E94DC51E83DC067024B0DF45A3CB6589AFD"
+  }
+}

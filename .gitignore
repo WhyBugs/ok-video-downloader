@@ -1,0 +1,9 @@
+tools/
+dist/
+tests/output*/
+tests/installed/
+tests/*.png
+tests/*.html
+tests/*.json
+tests/*.log
+tests/*.exe
