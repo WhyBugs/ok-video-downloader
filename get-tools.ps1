@@ -1,5 +1,6 @@
 param([string]$ToolsDirectory = (Join-Path $PSScriptRoot 'tools'))
 $ErrorActionPreference = 'Stop'
+$ProgressPreference = 'SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $lock = Get-Content (Join-Path $PSScriptRoot 'tools.lock.json') -Raw | ConvertFrom-Json
 New-Item -ItemType Directory -Force $ToolsDirectory | Out-Null

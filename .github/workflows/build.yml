@@ -4,19 +4,22 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: windows-installer
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - name: Download verified tools
-        shell: powershell
+        shell: pwsh
         run: ./get-tools.ps1
       - name: Build installer
-        shell: powershell
+        shell: pwsh
         run: ./build.ps1
       - name: Check URL handling and cancellation
-        shell: powershell
+        shell: pwsh
         run: |
           & "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /nologo /out:dist\portable\Checks.exe /reference:dist\portable\OkVideo.exe tests\Checks.cs
           if ($LASTEXITCODE -ne 0) { throw 'Checks compilation failed' }
