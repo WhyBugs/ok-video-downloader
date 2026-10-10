@@ -7,3 +7,4 @@ tests/*.html
 tests/*.json
 tests/*.log
 tests/*.exe
+tests/tool-check/
