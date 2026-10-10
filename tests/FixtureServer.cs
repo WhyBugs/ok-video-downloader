@@ -1,0 +1,13 @@
+using System;using System.IO;using System.Net;using System.Net.Sockets;using System.Text;using System.Threading;using System.Threading.Tasks;
+class FixtureServer {
+ static string root;
+ static void Respond(TcpClient client){using(client)try{var stream=client.GetStream();stream.ReadTimeout=10000;var reader=new StreamReader(stream,Encoding.ASCII,false,4096,true);string first=reader.ReadLine();if(first==null)return;var request=first.Split(' ');if(request.Length<2)return;string path=request[1],range=null,line;while(!string.IsNullOrEmpty(line=reader.ReadLine()))if(line.StartsWith("Range:",StringComparison.OrdinalIgnoreCase))range=line.Substring(6).Trim();byte[] bytes;string file=null;
+  if(path=="/playlist")bytes=Encoding.UTF8.GetBytes("<html><head><title>DLP test playlist</title></head><body><video controls src='/one.mp4'></video><video controls src='/two.mp4'></video></body></html>");
+  else if(path=="/single")bytes=Encoding.UTF8.GetBytes("<html><head><title>DLP test video</title></head><body><video controls poster='/cover.jpg'><source src='/one.mp4' type='video/mp4'><track kind='subtitles' src='/ru.vtt' srclang='ru' label='Russian'></video></body></html>");
+  else {if(path=="/slow.mp4"){Thread.Sleep(8000);file="one.mp4";}else if(path=="/one.mp4"||path=="/two.mp4"||path=="/cover.jpg"||path=="/ru.vtt")file=path.Substring(1);if(file==null){byte[] notFound=Encoding.ASCII.GetBytes("HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\nConnection: close\r\n\r\n");stream.Write(notFound,0,notFound.Length);return;}bytes=File.ReadAllBytes(Path.Combine(root,file));}
+  string mime=path.EndsWith(".mp4")?"video/mp4":path.EndsWith(".jpg")?"image/jpeg":path.EndsWith(".vtt")?"text/vtt":"text/html; charset=utf-8";
+  int start=0,end=bytes.Length-1;string status="200 OK",contentRange="";if(range!=null&&range.StartsWith("bytes=")){var parts=range.Substring(6).Split('-');int.TryParse(parts[0],out start);if(parts.Length>1&&parts[1]!="")int.TryParse(parts[1],out end);start=Math.Max(0,Math.Min(start,bytes.Length-1));end=Math.Max(start,Math.Min(end,bytes.Length-1));status="206 Partial Content";contentRange="Content-Range: bytes "+start+"-"+end+"/"+bytes.Length+"\r\n";}
+  byte[] header=Encoding.ASCII.GetBytes("HTTP/1.1 "+status+"\r\nContent-Type: "+mime+"\r\nContent-Length: "+(end-start+1)+"\r\nAccept-Ranges: bytes\r\n"+contentRange+"Connection: close\r\n\r\n");stream.Write(header,0,header.Length);if(request[0]!="HEAD")stream.Write(bytes,start,end-start+1);
+ }catch{}}
+ static void Main(string[] args){root=Path.GetFullPath(args[0]);var listener=new TcpListener(IPAddress.Loopback,39721);listener.Start();Console.WriteLine("READY");while(true){var client=listener.AcceptTcpClient();Task.Run(delegate{Respond(client);});}}
+}

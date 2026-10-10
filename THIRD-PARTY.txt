@@ -18,3 +18,9 @@ https://github.com/FFmpeg/FFmpeg
 
 Оболочка ОК Видео и установщик: исходники находятся в src, разрешено использование,
 изменение и распространение согласно GPL v3 или новее.
+
+Deno 2.9.7 — https://github.com/denoland/deno/tree/v2.9.7
+Лицензия MIT и включённые сторонние компоненты: DENO-LICENSE.txt.
+Лицензии бинарного yt-dlp: YTDLP-LICENSES.txt, исходный commit 51bab8a0116f4d8004c315706d809782607d5847.
+Точные SHA-256 всех инструментов: tools.lock.json.
+

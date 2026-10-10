@@ -18,13 +18,10 @@ jobs:
       - name: Build installer
         shell: pwsh
         run: ./build.ps1
-      - name: Check URL handling and cancellation
+      - name: Test yt-dlp integration
         shell: pwsh
         run: |
-          & "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /nologo /out:dist\portable\Checks.exe /reference:dist\portable\OkVideo.exe tests\Checks.cs
-          if ($LASTEXITCODE -ne 0) { throw 'Checks compilation failed' }
-          & .\dist\portable\Checks.exe
-          if ($LASTEXITCODE -ne 0) { throw 'Checks failed' }
+          ./tests/run-tests.ps1 -Integration
       - uses: actions/upload-artifact@v4
         with:
           name: OkVideo-Windows-Installer

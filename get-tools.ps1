@@ -21,4 +21,13 @@ if (-not ((Test-ToolHash 'ffmpeg.exe' $lock.ffmpeg.sha256) -and (Test-ToolHash '
     Get-ChildItem -LiteralPath $unpackPath -Recurse -Filter '*.exe' | Where-Object Name -In 'ffmpeg.exe','ffprobe.exe' | Copy-Item -Destination $ToolsDirectory
     if (-not ((Test-ToolHash 'ffmpeg.exe' $lock.ffmpeg.sha256) -and (Test-ToolHash 'ffprobe.exe' $lock.ffprobe.sha256))) { throw 'FFmpeg/FFprobe SHA-256 mismatch' }
 }
+if (-not (Test-ToolHash 'deno.exe' $lock.deno.sha256)) {
+    $denoArchive = Join-Path $ToolsDirectory 'deno-build.zip'
+    $denoUnpack = Join-Path $ToolsDirectory 'deno-build'
+    Invoke-WebRequest -UseBasicParsing -Uri $lock.deno.url -OutFile $denoArchive
+    if ((Get-FileHash -LiteralPath $denoArchive -Algorithm SHA256).Hash -ne $lock.deno.archiveSha256) { throw 'Deno archive SHA-256 mismatch' }
+    Expand-Archive -LiteralPath $denoArchive -DestinationPath $denoUnpack -Force
+    Copy-Item (Join-Path $denoUnpack 'deno.exe') $ToolsDirectory -Force
+    if (-not (Test-ToolHash 'deno.exe' $lock.deno.sha256)) { throw 'Deno SHA-256 mismatch' }
+}
 Write-Output 'Tools verified by SHA-256.'

@@ -8,3 +8,7 @@ tests/*.json
 tests/*.log
 tests/*.exe
 tests/tool-check/
+tests/fixtures/
+tests/*.txt
+tests/*.jpg
+tests/installed*/
